@@ -1,0 +1,31 @@
+ena
+config
+interface vlan 69
+ip address 23.9.24.1 255.255.255.224
+interface vlan 71
+ip address 23.9.24.33 255.255.255.192
+interface vlan 72
+ip address 23.9.24.65 255.255.255.248
+interface vlan 70
+ip address 23.9.24.73 255.255.255.224
+interface vlan 12 
+ip address 23.9.24.97 255.255.255.240
+
+Switch(config-if)#no switchport trunk allow vlan 70
+Switch(config-if)#switchport trunk allow vlan 69,70,71,72,12
+
+
+
+no switchport trunk allowed vlan 12,69-72
+
+//Esto para el cable saliente de los switches para trunk
+Switch(config-if)#switchport mode trunk
+Switch(config-if)#switchport trunk allowed vlan 12
+//switchport trunk allowed vlan 10,35,40
+
+
+switchport access vlan 40
+switchport mode access
+
+switchport access vlan 35
+switchport mode access
