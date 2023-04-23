@@ -1,0 +1,79 @@
+| [Dir de red] | [ Gateway  ] | [   Rango de direcciones   ] |
+| 23.9.24.0/24 | 23.9.24.1/24 | 23.9.24.2/24 - 23.9.24.30/24 |
+| 23.9.25.0/24 | 23.9.25.1/24 | 23.9.25.2/24 - 23.9.25.30/24 |
+| 23.9.26.0/24 | 23.9.26.1/24 | 23.9.26.2/24 - 23.9.26.33/24 |
+| 23.9.27.0/24 | 23.9.27.1/24 | 23.9.27.2/24 - 23.9.27.10/24 |
+
+Switch(config)#interface FastEthernet1/1
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 69
+Switch(config-if)#
+%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan69, changed state to up
+
+Switch(config-if)#no shutdown
+
+
+switchport mode trunk
+switchport trunk allow vlan xx
+
+
+//
+Router(config)#ip routing
+Router(config)#ip route 23.9.24.0 255.255.255.0 gig0/0/0
+
+
+router0 -> router2 ->
+
+router0 1.1.1.1
+network 23.9.27.112 0.0.0.3 area 0
+network 23.9.27.108 0.0.0.3 area 0
+network 23.9.27.92 0.0.0.3 area 0
+network 23.9.27.96 0.0.0.3 area 0
+
+router2 2.2.2.2
+network 23.9.27.88 0.0.0.3 area 0
+network 23.9.27.92 0.0.0.3 area 0
+network 23.9.27.84 0.0.0.3 area 0
+
+SW0 3.3.3.3
+Switch(config-router)#passive-interface g1/0/1
+Switch(config-router)#passive-interface g1/0/2
+Switch(config-router)#passive-interface g1/0/3
+Switch(config-router)#passive-interface g1/0/4
+no network 23.9.24.0 0.0.0.63 area 0
+no network 23.9.24.64 0.0.0.31 area 0
+no network 23.9.24.96 0.0.0.31 area 0
+no network 23.9.24.128 0.0.0.15 area 0
+no network 23.9.24.144 0.0.0.15 area 0
+network 23.9.27.112 0.0.0.3 area 0
+
+Router3 4.4.4.4
+network 23.9.27.84 0.0.0.3 area 0
+network 23.9.27.80 0.0.0.3 area 0
+network 23.9.27.100 0.0.0.3 area 0
+
+router1 5.5.5.5
+network 23.9.27.100 0.0.0.3 area 0
+network 23.9.27.104 0.0.0.3 area 0
+network 23.9.27.96 0.0.0.3 area 0
+
+router6 6.6.6.6
+network 23.9.27.104 0.0.0.3 area 0
+network 23.9.27.108 0.0.0.3 area 0
+network 156.35.0.0 0.0.255.255 area 0
+passive-interface fa0/0
+passive-interface fa1/0
+
+router4 7.7.7.7
+network 23.9.27.80 0.0.0.3 area 0
+network 23.9.26.0 0.0.0.255 area 0
+network 23.9.27.0 0.0.0.255 area 0
+passive-interface g0/0
+passive-interface g0/1
+
+
+
+
+
+
+.
