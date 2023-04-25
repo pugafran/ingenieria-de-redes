@@ -117,10 +117,92 @@ ip nat pool invitados 23.9.27.81 23.9.27.81 netmask 255.255.255.252
 ip nat inside source list 1 pool invitados overload
 access-list 1 permit 10.23.9.0 0.0.0.15
 
+ipv6 fe
+
+
+
+router internet:
+interface FastEthernet0/0
+ ip address 156.35.0.1 255.255.0.0
+ duplex auto
+ speed auto
+!
+interface FastEthernet1/0
+ ip address 156.23.9.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface Serial2/0
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Serial3/0
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface FastEthernet4/0
+ no ip address
+ shutdown
+!
+interface FastEthernet5/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet6/0
+ ip address 23.9.27.109 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet7/0
+ no ip address
+ duplex auto
+ speed auto
+!
+router ospf 69
+ router-id 6.6.6.6
+ log-adjacency-changes
+ passive-interface FastEthernet0/0
+ passive-interface FastEthernet1/0
+network 23.9.27.104 0.0.0.3 area 0
+network 23.9.27.108 0.0.0.3 area 0
+network 156.35.0.0 0.0.255.255 area 0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+
+ipv6 unicast-routing
+ipv6 router ospf 70
+router-id 1.1.1.1
+
+ipv6 enable
+ipv6 ospf 70 area 0
+ipv6 address fe80::1 link-local
+
+Router(config-if)#int g0/1
 
 
 
 
 
 
-.
