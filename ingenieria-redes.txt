@@ -202,7 +202,86 @@ ipv6 address fe80::1 link-local
 Router(config-if)#int g0/1
 
 
+ACL DE A
+access-list 110 permit tcp any host 23.9.24.131 eq 80
+access-list 110 permit tcp any host 23.9.24.130 eq 25
+access-list 110 permit udp any eq bootpc any eq bootps
+access-list 110 permit ip 23.9.24.0 0.0.0.255 host 23.9.24.131
+access-list 110 permit ip 23.9.24.0 0.0.0.255 host 23.9.24.130
+access-list 110 permit ip 23.9.24.0 0.0.0.255 host 23.9.24.132
+access-list 110 permit ip 23.9.27.0 0.0.0.255 host 23.9.24.132
+
+
+ACL DE B
+web b 10.23.9.67
+mail b 10.23.9.66
+
+access-list 110 permit udp any eq bootpc any eq bootps
+
+
+b
+access-list 110 permit tcp 10.23.9.0 0.0.0.15 host 23.9.25.66 eq 25
+access-list 110 permit tcp 10.23.9.0 0.0.0.15 host 23.9.25.67 eq 80
+a
+access-list 110 permit tcp 10.23.9.0 0.0.0.15 host 23.9.24.130 eq 25
+access-list 110 permit tcp 10.23.9.0 0.0.0.15 host 23.9.24.131 eq 80
+CD
+access-list 110 permit tcp 10.23.9.0 0.0.0.15 host 10.23.9.34 eq 25
+
+access-list 120 permit udp any eq bootpc any eq bootps
+access-list 120 permit tcp 23.9.24.0 0.0.3.255 host 23.9.25.68 range 0 65535
+access-list 120 permit tcp 23.9.24.0 0.0.3.255 host 23.9.25.69 range 0 65535
+
+access-list 120 permit ip 156.23.9.0 0.0.0.255 23.9.25.64 0.0.0.63
 
 
 
+ACL DE C y D
 
+access-list 110 permit udp any eq bootpc any eq bootps
+access-list 110 permit tcp any 23.9.25.67 0.0.0.0 eq 80
+access-list 110 permit tcp any 23.9.24.131 0.0.0.0 eq 80
+access-list 110 permit tcp any 10.23.9.34 0.0.0.0 eq 25
+access-list 110 permit tcp any 23.9.25.66 0.0.0.0 eq 25
+access-list 110 permit tcp any 23.9.24.130 0.0.0.0 eq 25
+access-list 110 permit ip any 156.35.0.0 0.0.255.255
+
+web a web b mail a mail b mail cd
+
+access-list 120 permit udp any eq bootpc any eq bootps
+access-list 120 permit ip any 10.23.9.34 0.0.0.0
+access-list 120 permit ip any 23.9.24.130 0.0.0.0
+access-list 120 permit ip any 23.9.25.67 0.0.0.0
+access-list 120 permit ip any 23.9.24.131 0.0.0.0
+access-list 120 permit ip any 23.9.25.66 0.0.0.0
+
+access-list 130 permit udp any eq bootpc any eq bootps
+access-list 130 permit ip 23.9.26.0 0.0.0.255 10.23.9.35 0.0.0.0
+access-list 130 permit ip 23.9.27.0 0.0.0.255 10.23.9.35 0.0.0.0
+access-list 130 permit ip 23.9.24.144 0.0.0.15 10.23.9.35 0.0.0.0
+access-list 130 permit ip 23.9.24.0 0.0.0.63 10.23.9.35 0.0.0.0
+access-list 130 permit ip 156.23.9.0 0.0.0.255 10.23.9.35 0.0.0.0
+--
+access-list 130 permit ip 23.9.26.0 0.0.0.255 10.23.9.36 0.0.0.0
+access-list 130 permit ip 23.9.27.0 0.0.0.255 10.23.9.36 0.0.0.0
+access-list 130 permit ip 23.9.24.144 0.0.0.15 10.23.9.36 0.0.0.0
+access-list 130 permit ip 23.9.24.0 0.0.0.63 10.23.9.36 0.0.0.0
+access-list 130 permit ip 156.23.9.0 0.0.0.255 10.23.9.36 0.0.0.0
+--
+access-list 130 permit ip any 10.23.9.33 0.0.0.0
+
+int g0/0.20
+no ip access-group 110 out
+ip access-group 110 in
+int g0/1.10
+no ip access-group 110 out
+ip access-group 110 in
+int g0/0.35
+no ip access-group 120 out
+ip access-group 120 in
+int g0/1.40
+no ip access-group 120 out
+ip access-group 120 in
+int g0/0.10
+no ip access-group 130 in
+ip access-group 130 out
