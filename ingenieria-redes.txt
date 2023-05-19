@@ -285,3 +285,90 @@ ip access-group 120 in
 int g0/0.10
 no ip access-group 130 in
 ip access-group 130 out
+
+
+
+
+
+fixeado:
+
+
+
+access-list 70 permit udp any eq bootpc any eq bootps   ! Permite el tráfico DHCP del cliente (PC) al servidor DHCP
+access-list 70 permit tcp 10.23.9.32 0.0.0.31 host 23.9.24.131 eq www   ! Permite a la Sala de Invitados en el Edificio C acceder al servidor web A a través del puerto 80 (HTTP)
+access-list 70 permit tcp 10.23.9.32 0.0.0.31 host 23.9.25.67 eq www   ! Permite a la Sala de Invitados en el Edificio C acceder al servidor web B a través del puerto 80 (HTTP)
+access-list 70 permit tcp 10.23.9.32 0.0.0.31 host 23.9.24.130 eq smtp   ! Permite a la Sala de Invitados en el Edificio C acceder al servidor de correo A a través del puerto 25 (SMTP)
+access-list 70 permit tcp 10.23.9.32 0.0.0.31 host 23.9.25.66 eq smtp   ! Permite a la Sala de Invitados en el Edificio C acceder al servidor de correo B a través del puerto 25 (SMTP)
+access-list 70 permit tcp 10.23.9.32 0.0.0.31 host 23.9.26.98 eq smtp   ! Permite a la Sala de Invitados en el Edificio C acceder al servidor de correo C-D a través del puerto 25 (SMTP)
+access-list 70 permit tcp 10.23.9.32 0.0.0.31 any eq www   ! Permite a la Sala de Invitados en el Edificio C acceder a cualquier destino a través del puerto 80 (HTTP)
+access-list 70 permit tcp 10.23.9.32 0.0.0.31 any eq smtp   ! Permite a la Sala de Invitados en el Edificio C acceder a cualquier destino a través del puerto 25 (SMTP)
+access-list 70 permit tcp 10.23.9.32 0.0.0.31 any   ! Permite a la Sala de Invitados en el Edificio C acceder a cualquier destino a través de cualquier puerto
+
+
+Invitados de C
+access-list 140 permit udp any eq bootpc any eq bootps   
+access-list 140 permit tcp 10.23.9.32 0.0.0.31 host 23.9.24.131 eq www  
+access-list 140 permit tcp 10.23.9.32 0.0.0.31 host 23.9.25.67 eq www   
+access-list 140 permit tcp 10.23.9.32 0.0.0.31 host 23.9.24.130 eq smtp   
+access-list 140 permit tcp 10.23.9.32 0.0.0.31 host 23.9.25.66 eq smtp   
+access-list 140 permit tcp 10.23.9.32 0.0.0.31 host 23.9.26.98 eq smtp   
+access-list 140 permit tcp 10.23.9.32 0.0.0.31 any eq www   
+access-list 140 permit tcp 10.23.9.32 0.0.0.31 any eq smtp   
+access-list 140 permit tcp 10.23.9.32 0.0.0.31 any   
+access-list 140 permit tcp 10.23.9.32 0.0.0.15 156.35.0.0 0.0.255.255
+
+Invitados de D
+access-list 141 permit udp any eq bootpc any eq bootps
+access-list 141 permit tcp 10.23.9.16 0.0.0.15 host 23.9.24.131 eq www
+access-list 141 permit tcp 10.23.9.16 0.0.0.15 host 23.9.25.67 eq www
+access-list 141 permit tcp 10.23.9.16 0.0.0.15 host 23.9.24.130 eq smtp
+access-list 141 permit tcp 10.23.9.16 0.0.0.15 host 23.9.25.66 eq smtp
+access-list 141 permit tcp 10.23.9.16 0.0.0.15 host 23.9.26.98 eq smtp
+access-list 141 permit tcp 10.23.9.16 0.0.0.15 any eq www
+access-list 141 permit tcp 10.23.9.16 0.0.0.15 any eq smtp
+access-list 141 permit tcp 10.23.9.16 0.0.0.15 any
+access-list 141 permit tcp 10.23.9.16 0.0.0.15 156.35.0.0 0.0.255.255
+
+Personal de C
+access-list 142 permit ip 23.9.26.0 0.0.0.63 host 23.9.24.131
+access-list 142 permit ip 23.9.26.0 0.0.0.63 host 23.9.25.67
+access-list 142 permit ip 23.9.26.0 0.0.0.63 host 23.9.24.130
+access-list 142 permit ip 23.9.26.0 0.0.0.63 host 23.9.25.66
+access-list 142 permit ip 23.9.26.0 0.0.0.63 host 23.9.26.98
+access-list 142 permit ip 23.9.26.0 0.0.0.63 any
+
+
+Personal de D
+access-list 143 permit ip 23.9.27.0 0.0.0.63 host 23.9.24.131
+access-list 143 permit ip 23.9.27.0 0.0.0.63 host 23.9.25.67
+access-list 143 permit ip 23.9.27.0 0.0.0.63 host 23.9.24.130
+access-list 143 permit ip 23.9.27.0 0.0.0.63 host 23.9.25.66
+access-list 143 permit ip 23.9.27.0 0.0.0.63 host 23.9.26.98
+access-list 143 permit ip 23.9.27.0 0.0.0.63 any
+
+
+access-list 144 permit ip 23.9.26.0 0.0.0.63 host 23.9.26.99
+access-list 144 permit ip 23.9.26.0 0.0.0.63 host 23.9.26.100
+access-list 144 permit ip 23.9.27.0 0.0.0.63 host 23.9.26.99
+access-list 144 permit ip 23.9.27.0 0.0.0.63 host 23.9.26.100
+access-list 144 permit ip 23.9.24.1 0.0.0.63 host 23.9.26.99
+access-list 144 permit ip 23.9.24.1 0.0.0.63 host 23.9.26.100
+access-list 144 permit ip 23.9.24.145 0.0.0.15 host 23.9.26.99
+access-list 144 permit ip 23.9.24.145 0.0.0.15 host 23.9.26.100
+access-list 144 permit ip 156.23.9.0 0.0.0.255 host 23.9.26.99
+access-list 144 permit ip 156.23.9.0 0.0.0.255 host 23.9.26.100
+access-list 144 permit ip any host 23.9.26.98
+
+
+
+
+interface <Interfaz_del_enrutador_hacia_la_sala_de_invitados_C-D>
+ip access-group 70 in   ! Aplica la ACL 70 al tráfico entrante en la interfaz del enrutador hacia la sala de invitados de los Edificios C-D
+interface <Interfaz_del_enrutador_hacia_el_personal_C-D>
+ip access-group 80 in   ! Aplica la ACL 80 al tráfico entrante en la interfaz del enrutador hacia el personal de los Edificios C-D
+interface <Interfaz_del_enrutador_hacia_el_dhcp_C-D>
+ip access-group 130 in   ! Aplica la ACL 130 al tráfico entrante en la interfaz del enrutador hacia el servidor DHCP
+
+
+10.23.9.16-31
+10.23.9.32-47
